@@ -1,11 +1,25 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 import request from "@/api/request";
 
+import { Editor, type OnMount, OnChange } from "@monaco-editor/react";
+import * as monacoEditor from "monaco-editor";
+
 export default function Home() {
-  // Test
+  const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor | null>(
+    null
+  );
+
+  const handleEditorDidMount: OnMount = (editor) => {
+    editorRef.current = editor;
+  };
+
+  const handleChangeCode: OnChange = (value: string | undefined) => {
+    console.log(value);
+  };
+
   useEffect(() => {
     const translate = async () => {
       const response = await request({
@@ -22,5 +36,14 @@ export default function Home() {
 
     translate().then();
   }, []);
-  return <div></div>;
+
+  return (
+    <div>
+      <Editor
+        defaultLanguage="JSON"
+        onMount={handleEditorDidMount}
+        onChange={handleChangeCode}
+      />
+    </div>
+  );
 }
