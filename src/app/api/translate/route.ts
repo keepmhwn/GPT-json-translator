@@ -1,24 +1,30 @@
 import { NextResponse } from "next/server";
-import { Translate } from "@google-cloud/translate/build/src/v2";
 
-type GoogleCloudError = {
-  code: number;
-  message: string;
-};
+import OpenAI from "openai";
+
+const openai = new OpenAI({
+  apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+});
 
 export async function POST(request: Request) {
-  const { text, targetLanguage: target } = await request.json();
-
-  const translate = new Translate({
-    projectId: process.env.NEXT_PUBLIC_GOOGLE_APPLICATION_PROJECT_ID,
-    key: process.env.NEXT_PUBLIC_GOOGLE_APPLICATION_CREDENTIALS,
-  });
+  const { sourceJson, targetLanguage } = await request.json();
 
   try {
-    const [translated] = await translate.translate(text, target);
-    return NextResponse.json({ translated });
-  } catch (error: unknown) {
-    const { code, message } = error as GoogleCloudError;
-    return NextResponse.json({ error: message }, { status: code });
-  }
+    const completion = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [
+        {
+          role: "system",
+          content: `Translate the value of JSON into ${targetLanguage} and return JSON.`,
+        },
+        {
+          role: "user",
+          content: sourceJson,
+        },
+      ],
+    });
+    return NextResponse.json({
+      translated: completion.choices[0].message,
+    });
+  } catch (e) {}
 }
