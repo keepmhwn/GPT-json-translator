@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import I18nextJsonFormView from "../view";
 
 type Props = {
+  isSubmitting: boolean;
   translatedJson: string;
   onTranslate: (formFieldValues: I18NextJsonFormFieldValues) => void;
 };
@@ -23,7 +24,11 @@ const INITIAL_VALIDATE_VALUES: {
   targetLanguage: true,
 };
 
-const I18nextJsonFormLogic = ({ translatedJson, onTranslate }: Props) => {
+const I18nextJsonFormLogic = ({
+  isSubmitting,
+  translatedJson,
+  onTranslate,
+}: Props) => {
   const [formFieldValues, setFormFieldValues] =
     useState<I18NextJsonFormFieldValues>({
       source: "",
@@ -79,6 +84,7 @@ const I18nextJsonFormLogic = ({ translatedJson, onTranslate }: Props) => {
 
   return (
     <I18nextJsonFormView
+      isSubmitting={isSubmitting}
       formFieldValues={formFieldValues}
       validate={validate}
       onChange={handleChange}

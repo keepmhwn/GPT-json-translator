@@ -8,10 +8,12 @@ import { I18NextJsonFormFieldValues } from "@/types/editor";
 
 const I18NextJsonForm = () => {
   const [translated, setTranslated] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleTranslate = async (
     formFieldValues: I18NextJsonFormFieldValues
   ) => {
+    setIsSubmitting(true);
     const { source, targetLanguage } = formFieldValues;
     try {
       const { translated } = await request({
@@ -26,11 +28,14 @@ const I18NextJsonForm = () => {
       setTranslated(translated.content);
     } catch (e) {
       console.log(e);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
     <I18nextJsonFormLogic
+      isSubmitting={isSubmitting}
       translatedJson={translated}
       onTranslate={handleTranslate}
     />

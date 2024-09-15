@@ -7,6 +7,7 @@ import JsonEditorCard from "./json-editor-card";
 import SelectLanguage from "./select-language";
 
 type Props = {
+  isSubmitting: boolean;
   formFieldValues: I18NextJsonFormFieldValues;
   validate: { [key in keyof I18NextJsonFormFieldValues]: boolean };
   onChange: (key: keyof I18NextJsonFormFieldValues, value: string) => void;
@@ -16,6 +17,7 @@ type Props = {
 };
 
 const I18nextJsonFormView = ({
+  isSubmitting,
   formFieldValues,
   validate,
   onChange,
@@ -39,7 +41,12 @@ const I18nextJsonFormView = ({
           onChange={onChange}
         />
         <Stack direction="row">
-          <Button colorScheme="teal" variant="outline" onClick={onReset}>
+          <Button
+            colorScheme="teal"
+            variant="outline"
+            isDisabled={isSubmitting}
+            onClick={onReset}
+          >
             Reset
           </Button>
           <Button
@@ -47,6 +54,7 @@ const I18nextJsonFormView = ({
             isDisabled={
               formFieldValues.source.length === 0 || validate.source === false
             }
+            isLoading={isSubmitting}
             onClick={onTranslate}
           >
             Translate
