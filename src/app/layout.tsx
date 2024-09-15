@@ -14,7 +14,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body
+        style={{
+          backgroundColor: "rgba(0, 0, 0, 0.06)",
+        }}
+      >
         <ChakraProvider>
           <Container display="flex" alignItems="center" justifyContent="center">
             {children}
