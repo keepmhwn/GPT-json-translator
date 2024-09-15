@@ -52,7 +52,9 @@ const I18nextJsonFormView = ({
           <Button
             colorScheme="teal"
             isDisabled={
-              formFieldValues.source.length === 0 || validate.source === false
+              formFieldValues.source.length === 0 ||
+              formFieldValues.targetLanguage === null ||
+              validate.source === false
             }
             isLoading={isSubmitting}
             onClick={onTranslate}
