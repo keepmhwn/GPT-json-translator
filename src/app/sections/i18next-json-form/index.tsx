@@ -1,5 +1,9 @@
 "use client";
+import type { NextResponseError } from "@/types/error";
+
 import { useState } from "react";
+
+import { useToast } from "@chakra-ui/react";
 
 import I18nextJsonFormLogic from "./logic";
 
@@ -7,6 +11,8 @@ import request from "@/api/request";
 import { I18NextJsonFormFieldValues } from "@/types/editor";
 
 const I18NextJsonForm = () => {
+  const toast = useToast();
+
   const [translated, setTranslated] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -16,7 +22,7 @@ const I18NextJsonForm = () => {
     setIsSubmitting(true);
     const { source, targetLanguage } = formFieldValues;
     try {
-      const { translated } = await request({
+      const result = await request({
         path: "/api/translate",
         method: "POST",
         body: {
@@ -25,9 +31,21 @@ const I18NextJsonForm = () => {
         },
       });
 
-      setTranslated(translated.content);
+      if (result.error) {
+        throw result.error;
+      }
+
+      setTranslated(result.translated.content);
     } catch (e) {
-      console.log(e);
+      const responseError = e as NextResponseError;
+
+      toast({
+        title: responseError.code,
+        description: responseError.message,
+        status: "error",
+        isClosable: true,
+        duration: 3000,
+      });
     } finally {
       setIsSubmitting(false);
     }

@@ -1,3 +1,5 @@
+import type { OpenAIError } from "@/types/error";
+
 import { NextResponse } from "next/server";
 
 import OpenAI from "openai";
@@ -11,7 +13,7 @@ export async function POST(request: Request) {
 
   try {
     const completion = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
+      model: process.env.NEXT_PUBLIC_GPT_MODEL as string,
       messages: [
         {
           role: "system",
@@ -23,8 +25,23 @@ export async function POST(request: Request) {
         },
       ],
     });
+
     return NextResponse.json({
       translated: completion.choices[0].message,
     });
-  } catch (e) {}
+  } catch (e) {
+    const openaiError = e as OpenAIError;
+
+    return NextResponse.json(
+      {
+        error: {
+          code: openaiError.status,
+          message: openaiError.error.message,
+        },
+      },
+      {
+        status: openaiError.status,
+      }
+    );
+  }
 }
