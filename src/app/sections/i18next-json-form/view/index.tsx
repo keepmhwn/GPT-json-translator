@@ -4,12 +4,14 @@ import type { I18NextJsonFormFieldValues } from "@/types/editor";
 import { Stack, Button } from "@chakra-ui/react";
 
 import JsonEditorCard from "./json-editor-card";
+import SelectLanguage from "./select-language";
 
 type Props = {
   formFieldValues: I18NextJsonFormFieldValues;
   validate: { [key in keyof I18NextJsonFormFieldValues]: boolean };
   onChange: (key: keyof I18NextJsonFormFieldValues, value: string) => void;
   onValidate: (key: keyof I18NextJsonFormFieldValues, valid: boolean) => void;
+  onReset: () => void;
   onTranslate: () => void;
 };
 
@@ -18,6 +20,7 @@ const I18nextJsonFormView = ({
   validate,
   onChange,
   onValidate,
+  onReset,
   onTranslate,
 }: Props) => {
   const handleChangeSource: OnChange = (value) => {
@@ -30,21 +33,32 @@ const I18nextJsonFormView = ({
 
   return (
     <Stack spacing={5}>
+      <Stack direction="row" justifyContent="space-between">
+        <SelectLanguage
+          value={formFieldValues.targetLanguage}
+          onChange={onChange}
+        />
+        <Stack direction="row">
+          <Button colorScheme="teal" variant="outline" onClick={onReset}>
+            Reset
+          </Button>
+          <Button
+            colorScheme="teal"
+            isDisabled={
+              formFieldValues.source.length === 0 || validate.source === false
+            }
+            onClick={onTranslate}
+          >
+            Translate
+          </Button>
+        </Stack>
+      </Stack>
       <JsonEditorCard
         title="Source"
         value={formFieldValues.source}
         onChange={handleChangeSource}
         onValidate={(isValid) => onValidate("source", isValid)}
       />
-      <Button
-        colorScheme="teal"
-        isDisabled={
-          formFieldValues.source.length === 0 || validate.source === false
-        }
-        onClick={onTranslate}
-      >
-        Translate
-      </Button>
       {formFieldValues.target && (
         <JsonEditorCard
           title="Traget"

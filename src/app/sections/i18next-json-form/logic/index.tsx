@@ -6,7 +6,21 @@ import I18nextJsonFormView from "../view";
 
 type Props = {
   translatedJson: string;
-  onTranslate: (sourceJson: string) => void;
+  onTranslate: (formFieldValues: I18NextJsonFormFieldValues) => void;
+};
+
+const INITIAL_FORM_FIELD_VALUES: I18NextJsonFormFieldValues = {
+  source: "",
+  target: "",
+  targetLanguage: null,
+};
+
+const INITIAL_VALIDATE_VALUES: {
+  [key in keyof I18NextJsonFormFieldValues]: boolean;
+} = {
+  source: true,
+  target: true,
+  targetLanguage: true,
 };
 
 const I18nextJsonFormLogic = ({ translatedJson, onTranslate }: Props) => {
@@ -14,6 +28,7 @@ const I18nextJsonFormLogic = ({ translatedJson, onTranslate }: Props) => {
     useState<I18NextJsonFormFieldValues>({
       source: "",
       target: "",
+      targetLanguage: null,
     });
 
   const [validate, setValidate] = useState<{
@@ -21,6 +36,7 @@ const I18nextJsonFormLogic = ({ translatedJson, onTranslate }: Props) => {
   }>({
     source: true,
     target: true,
+    targetLanguage: true,
   });
 
   const handleChange = (
@@ -37,12 +53,24 @@ const I18nextJsonFormLogic = ({ translatedJson, onTranslate }: Props) => {
     setValidate((prev) => ({ ...prev, [key]: isValid }));
   };
 
+  const handleReset = () => {
+    setFormFieldValues(INITIAL_FORM_FIELD_VALUES);
+    setValidate(INITIAL_VALIDATE_VALUES);
+  };
+
   const handleTranslate = () => {
+    if (formFieldValues.targetLanguage === null) {
+      setValidate((prev) => ({ ...prev, targetLanguage: false }));
+      return;
+    }
+
+    setValidate((prev) => ({ ...prev, targetLanguage: true }));
+
     if (validate.source === false) {
       return;
     }
 
-    onTranslate(formFieldValues.source);
+    onTranslate(formFieldValues);
   };
 
   useEffect(() => {
@@ -55,6 +83,7 @@ const I18nextJsonFormLogic = ({ translatedJson, onTranslate }: Props) => {
       validate={validate}
       onChange={handleChange}
       onValidate={handleValidate}
+      onReset={handleReset}
       onTranslate={handleTranslate}
     />
   );
