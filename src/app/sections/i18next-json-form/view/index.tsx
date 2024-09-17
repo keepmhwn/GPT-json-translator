@@ -71,7 +71,7 @@ const I18nextJsonFormView = ({
       />
       {formFieldValues.target && (
         <JsonEditorCard
-          title="Traget"
+          title="Translated"
           value={formFieldValues.target}
           onChange={handleChangeTarget}
           onValidate={(isValid) => onValidate("target", isValid)}
