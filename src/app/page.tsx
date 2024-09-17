@@ -6,9 +6,24 @@ export default function Home() {
   return (
     <>
       <Stack spacing={4} alignItems="center" padding={8}>
-        <Text as="b" fontSize="2xl" color="green">
-          i18next JSON Translator
-        </Text>
+        <Stack alignItems="center" spacing={0}>
+          <Text
+            as="b"
+            fontSize="2xl"
+            bgClip="text"
+            bgGradient="linear(to-r, yellow.400, teal)"
+          >
+            i18next JSON Translator
+          </Text>
+          <Text
+            as="b"
+            fontSize="xl"
+            bgClip="text"
+            bgGradient="linear(to-r, yellow.400, teal)"
+          >
+            by GPT
+          </Text>
+        </Stack>
         <I18NextJsonForm />
         <footer>
           <Text as="i" fontSize="sm" color="blackAlpha.500">
