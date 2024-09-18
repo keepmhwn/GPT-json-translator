@@ -1,3 +1,3 @@
-# i18next JSON Translator
+# GPT JSON Translator
 
 Translate JSON values ​​into another language using GPT.
