@@ -2,6 +2,8 @@ import type { I18NextJsonFormFieldValues } from "@/types/editor";
 
 import { useState, useEffect } from "react";
 
+import { useToast } from "@chakra-ui/react";
+
 import I18nextJsonFormView from "../view";
 
 type Props = {
@@ -12,7 +14,7 @@ type Props = {
 
 const INITIAL_FORM_FIELD_VALUES: I18NextJsonFormFieldValues = {
   source: "",
-  target: "",
+  translated: "",
   targetLanguage: null,
 };
 
@@ -20,7 +22,7 @@ const INITIAL_VALIDATE_VALUES: {
   [key in keyof I18NextJsonFormFieldValues]: boolean;
 } = {
   source: true,
-  target: true,
+  translated: true,
   targetLanguage: true,
 };
 
@@ -29,10 +31,12 @@ const I18nextJsonFormLogic = ({
   translatedJson,
   onTranslate,
 }: Props) => {
+  const toast = useToast();
+
   const [formFieldValues, setFormFieldValues] =
     useState<I18NextJsonFormFieldValues>({
       source: "",
-      target: "",
+      translated: "",
       targetLanguage: null,
     });
 
@@ -40,7 +44,7 @@ const I18nextJsonFormLogic = ({
     [key in keyof I18NextJsonFormFieldValues]: boolean;
   }>({
     source: true,
-    target: true,
+    translated: true,
     targetLanguage: true,
   });
 
@@ -78,8 +82,18 @@ const I18nextJsonFormLogic = ({
     onTranslate(formFieldValues);
   };
 
+  const handleCopy = () => {
+    navigator.clipboard.writeText(formFieldValues.translated);
+    toast({
+      title: "Copied Translated JSON",
+      status: "success",
+      duration: 2000,
+      colorScheme: "teal",
+    });
+  };
+
   useEffect(() => {
-    setFormFieldValues((prev) => ({ ...prev, target: translatedJson }));
+    setFormFieldValues((prev) => ({ ...prev, translated: translatedJson }));
   }, [translatedJson]);
 
   return (
@@ -91,6 +105,7 @@ const I18nextJsonFormLogic = ({
       onValidate={handleValidate}
       onReset={handleReset}
       onTranslate={handleTranslate}
+      onCopy={handleCopy}
     />
   );
 };

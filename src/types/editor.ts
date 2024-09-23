@@ -1,5 +1,5 @@
 export interface I18NextJsonFormFieldValues {
   source: string;
-  target: string;
+  translated: string;
   targetLanguage: string | null;
 }

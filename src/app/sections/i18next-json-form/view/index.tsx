@@ -14,6 +14,7 @@ type Props = {
   onValidate: (key: keyof I18NextJsonFormFieldValues, valid: boolean) => void;
   onReset: () => void;
   onTranslate: () => void;
+  onCopy: () => void;
 };
 
 const I18nextJsonFormView = ({
@@ -24,13 +25,14 @@ const I18nextJsonFormView = ({
   onValidate,
   onReset,
   onTranslate,
+  onCopy,
 }: Props) => {
   const handleChangeSource: OnChange = (value) => {
     onChange("source", value ?? "");
   };
 
   const handleChangeTarget: OnChange = (value) => {
-    onChange("target", value ?? "");
+    onChange("translated", value ?? "");
   };
 
   return (
@@ -49,6 +51,7 @@ const I18nextJsonFormView = ({
           >
             Reset
           </Button>
+
           <Button
             colorScheme="teal"
             isDisabled={
@@ -69,13 +72,25 @@ const I18nextJsonFormView = ({
         onChange={handleChangeSource}
         onValidate={(isValid) => onValidate("source", isValid)}
       />
-      {formFieldValues.target && (
-        <JsonEditorCard
-          title="Translated"
-          value={formFieldValues.target}
-          onChange={handleChangeTarget}
-          onValidate={(isValid) => onValidate("target", isValid)}
-        />
+      {formFieldValues.translated && !isSubmitting && (
+        <>
+          <Button
+            colorScheme="yellow"
+            color="white"
+            onClick={onCopy}
+            sx={{
+              marginLeft: "auto",
+            }}
+          >
+            Copy Translated JSON
+          </Button>
+          <JsonEditorCard
+            title="Translated"
+            value={formFieldValues.translated}
+            onChange={handleChangeTarget}
+            onValidate={(isValid) => onValidate("translated", isValid)}
+          />
+        </>
       )}
     </Stack>
   );
