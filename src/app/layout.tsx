@@ -5,6 +5,14 @@ import { ChakraProvider, Container } from "@chakra-ui/react";
 export const metadata: Metadata = {
   title: "GPT JSON Inspector",
   description: "Translate JSON values into another language using GPT.",
+  keywords: [
+    "GPT",
+    "translate",
+    "i18next",
+    "JSON",
+    "open AI",
+    "Internationalization",
+  ],
 };
 
 export default function RootLayout({
