@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { ChakraProvider, Container } from "@chakra-ui/react";
 
 export const metadata: Metadata = {
-  title: "GPT JSON Inspector",
+  title: "JSON Value Translator",
   description: "Translate JSON values into another language using GPT.",
   keywords: [
     "GPT",
@@ -13,6 +13,17 @@ export const metadata: Metadata = {
     "open AI",
     "Internationalization",
   ],
+  openGraph: {
+    type: "website",
+    locale: "en",
+    siteName: "JSON Value Translator",
+    title: "JSON Value Translator",
+    description: "Translate JSON values into another language using GPT.",
+    images: {
+      url: "/service-thumbnail.png",
+      alt: "JSON Value Translator",
+    },
+  },
 };
 
 export default function RootLayout({
