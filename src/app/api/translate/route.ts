@@ -10,6 +10,8 @@ const openai = new OpenAI({
   apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
 });
 
+const command = process.env.NEXT_PUBLIC_SYSTEM_CONTENT;
+
 export async function POST(request: Request) {
   const { sourceJson, targetLanguage } = await request.json();
 
@@ -19,7 +21,7 @@ export async function POST(request: Request) {
       messages: [
         {
           role: "system",
-          content: `Translate the value of JSON into ${targetLanguage} and return JSON.`,
+          content: `${command}: ${targetLanguage}`,
         },
         {
           role: "user",
