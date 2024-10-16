@@ -39,7 +39,17 @@ export default function RootLayout({
         }}
       >
         <ChakraProvider>
-          <Container display="flex" alignItems="center" justifyContent="center">
+          <Container
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            maxW={{
+              base: "320px",
+              sm: "md",
+              md: "container.sm",
+              lg: "container.md",
+            }}
+          >
             {children}
           </Container>
         </ChakraProvider>
