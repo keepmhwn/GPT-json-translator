@@ -13,7 +13,7 @@ export default function Home() {
             bgClip="text"
             bgGradient="linear(to-r, yellow.400, teal)"
           >
-            i18next JSON Translator
+            JSON Value Translator
           </Text>
           <Text
             as="b"

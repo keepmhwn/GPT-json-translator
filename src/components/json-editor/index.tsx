@@ -35,7 +35,7 @@ const JsonEditor = ({ value, onChange, onValidate }: Props) => {
   return (
     <Box
       width="100%"
-      height="100%"
+      height="330px"
       padding="16px"
       borderWidth="1px"
       borderRadius="lg"

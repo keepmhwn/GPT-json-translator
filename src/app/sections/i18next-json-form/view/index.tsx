@@ -48,6 +48,9 @@ const I18nextJsonFormView = ({
             variant="outline"
             isDisabled={isSubmitting}
             onClick={onReset}
+            sx={{
+              paddingX: "8px",
+            }}
           >
             Reset
           </Button>
@@ -61,6 +64,9 @@ const I18nextJsonFormView = ({
             }
             isLoading={isSubmitting}
             onClick={onTranslate}
+            sx={{
+              paddingX: "8px",
+            }}
           >
             Translate
           </Button>
@@ -80,9 +86,10 @@ const I18nextJsonFormView = ({
             onClick={onCopy}
             sx={{
               marginLeft: "auto",
+              paddingX: "12px",
             }}
           >
-            Copy Translated JSON
+            Copy
           </Button>
           <JsonEditorCard
             title="Translated"

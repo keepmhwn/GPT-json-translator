@@ -24,16 +24,16 @@ const SelectLanguage = ({ value, onChange }: Props) => {
       <MenuButton
         as={Button}
         rightIcon={<ChevronDownIcon />}
-        minWidth="220px"
+        minWidth="120px"
         textAlign="start"
         bg="white"
       >
-        {value ? value : "Translation Language"}
+        {value ? value : "Language"}
       </MenuButton>
       <MenuList>
         <MenuOptionGroup
           value={value ?? ""}
-          title="Translation Language"
+          title="Language"
           onChange={(value) => onChange("targetLanguage", value as string)}
         >
           {SUPPORTED_LANGUAGE_LIST.map((language) => (
